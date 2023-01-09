@@ -27,8 +27,6 @@ async function loadListElements(){
 
 const apiData = await loadListElements();
 
-//const numberOfCurrentElements = apiData.length;
-
 let currentItem = 0;
 
 function createListElement(description){
@@ -51,4 +49,12 @@ function createListElement(description){
     </label>`;
 
     newElement.innerHTML = listElementHTML;
+}
+
+function generateList(data){
+  console.log(data);
+  for (let i = 0; i < data.length; i++){
+    let newTaskTitle = apiData[i].title;
+    createListElement(newTaskTitle);
+  }
 }
