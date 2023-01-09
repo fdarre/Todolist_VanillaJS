@@ -1,20 +1,34 @@
-const response = fetch('https://jsonplaceholder.typicode.com/todos?_limit=5', {
-  headers: {
-    Accept: 'application/json'
-  }
-})
-  .then((r) => {
-    if (r.ok) {
-      return r.json()
-    } else {
-      throw new Error('Erreur serveur', { cause: r })
+/**
+ * @returns {Array<Object>}
+ *
+*/
+async function loadListElements(){
+  try {
+    const url = 'https://jsonplaceholder.typicode.com/todos?_limit=5';
+    const res = await fetch(url,
+    {
+      headers: { Accept: 'application/json' },
+      method: 'GET'
+    });
+
+    if (!res.ok)
+    {
+      throw new Error('Impossible de contacter le serveur');
     }
-  })
 
+    const data = await res.json();
+    return data;
+  }
 
-  response.then((listitem) => {
-    console.log('La liste des articles : ', listitem)
-  })
-  .catch((e) => {
-    console.error('Une erreur est survenue', e)
-  })
+  catch (err) {
+    console.error(`erreur: ${err}`);
+  }
+}
+
+const apiData = await loadListElements();
+
+const htmlListElements = Array.from(document.querySelectorAll(".list-group-item > .form-check-label"));
+
+for (let i in htmlListElements) {
+  console.log(htmlListElements[i].textContent = apiData[i].title);
+}
