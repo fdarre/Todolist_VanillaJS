@@ -1,8 +1,28 @@
-let currentItem = 0;
+export function generateList(data){
+  for (let i = 0; i < data.length; i++){
+    let newTaskTitle = data[i].title;
+    createListElement(newTaskTitle);
+  }
+
+  handleAddBtnClickEvent();
+}
+
+function handleAddBtnClickEvent(){
+  const addButton = document.querySelector("#addButton");
+  addButton.addEventListener("click", getUserInput);
+}
+
+function getUserInput(e){
+  e.preventDefault();
+  const userInputFormElement = document.querySelector("#user-input");
+  createListElement(userInputFormElement.value);
+}
+
+let itemCounter = 0;
 
 function createListElement(description){
 
-  currentItem++;
+  itemCounter++;
 
   let newElement = document.createElement('li');
 
@@ -11,8 +31,8 @@ function createListElement(description){
   document.querySelector('.list-group').appendChild(newElement);
 
   const listElementHTML =
-    `<input class="form-check-input" type="checkbox" id="todo-${currentItem}">
-    <label class="ms-2 form-check-label" for="todo-${currentItem}">
+    `<input class="form-check-input" type="checkbox" id="todo-${itemCounter}">
+    <label class="ms-2 form-check-label" for="todo-${itemCounter}">
       ${description}
     </label>
     <label class="ms-auto btn btn-danger btn-sm">
@@ -20,12 +40,15 @@ function createListElement(description){
     </label>`;
 
     newElement.innerHTML = listElementHTML;
+
+    handleDeleteBtnClickEvent(newElement);
 }
 
-export function generateList(data){
-  for (let i = 0; i < data.length; i++){
-    let newTaskTitle = data[i].title;
-    createListElement(newTaskTitle);
-  }
+function handleDeleteBtnClickEvent(newElement) {
+  let deleteBtn = newElement.querySelector('.btn-danger');
+  deleteBtn.addEventListener("click", () => newElement.remove());
 }
+
+
+
 
