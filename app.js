@@ -27,8 +27,28 @@ async function loadListElements(){
 
 const apiData = await loadListElements();
 
-const htmlListElements = Array.from(document.querySelectorAll(".list-group-item > .form-check-label"));
+//const numberOfCurrentElements = apiData.length;
 
-for (let i in htmlListElements) {
-  console.log(htmlListElements[i].textContent = apiData[i].title);
+let currentItem = 0;
+
+function createListElement(description){
+
+  currentItem++;
+
+  let newElement = document.createElement('li');
+
+  newElement.classList.add("todo", "list-group-item", "d-flex", "align-items-center");
+
+  document.querySelector('.list-group').appendChild(newElement);
+
+  const listElementHTML =
+    `<input class="form-check-input" type="checkbox" id="todo-${currentItem}">
+    <label class="ms-2 form-check-label" for="todo-${currentItem}">
+      ${description}
+    </label>
+    <label class="ms-auto btn btn-danger btn-sm">
+      <i class="bi-trash"></i>
+    </label>`;
+
+    newElement.innerHTML = listElementHTML;
 }
